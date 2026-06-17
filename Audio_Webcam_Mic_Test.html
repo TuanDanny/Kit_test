@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audio / Webcam / Mic Test</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+body { font-family: 'Inter', sans-serif; margin: 0; padding: 24px; background: #f0f2f5; color: #1a1a1a; }
+h1 { text-align: center; margin-bottom: 32px; font-weight: 700; color: #2d3748; }
+.container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+.box { padding: 24px; background: white; border: none; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); transition: transform 0.2s ease; }
+.box:hover { transform: translateY(-2px); }
+h2 { margin-top: 0; font-size: 1.25rem; color: #4a5568; margin-bottom: 16px; border-bottom: 2px solid #edf2f7; padding-bottom: 8px; }
+.btn-group { display: flex; flex-wrap: wrap; gap: 12px; }
+button { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600; padding: 12px 24px; border-radius: 10px; border: none; background: #3182ce; color: white; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(49, 130, 206, 0.4); }
+button:hover { background: #2b6cb0; transform: translateY(-1px); box-shadow: 0 4px 6px rgba(49, 130, 206, 0.5); }
+button:active { transform: translateY(0); }
+p { color: #718096; line-height: 1.6; }
+.media-container { display: flex; flex-direction: column; gap: 16px; align-items: center; margin-top: 20px; }
+video { width: 100%; max-width: 500px; background: #2d3748; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.15); }
+#meter { height: 16px; background: #e2e8f0; border-radius: 8px; overflow: hidden; width: 100%; max-width: 500px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+#bar { height: 100%; width: 0; background: linear-gradient(90deg, #48bb78, #38a169); transition: width 0.05s linear; }
+.error { color: #e53e3e; background: #fff5f5; padding: 12px; border-radius: 8px; display: none; margin-top: 12px; border-left: 4px solid #e53e3e; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Audio / Webcam / Microphone Test</h1>
+    
+    <div class="box">
+        <h2>1) Loa trái / Loa phải</h2>
+        <p>Kiểm tra xem loa có bị rè, lệch âm hay mất một bên không. Nhớ tăng/giảm âm lượng trong lúc nghe.</p>
+        <div class="btn-group">
+            <button onclick="tone(-1)">Test loa trái</button>
+            <button onclick="tone(1)">Test loa phải</button>
+            <button onclick="tone(0)">Test 2 loa</button>
+        </div>
+    </div>
+
+    <div class="box">
+        <h2>2) Webcam & Microphone</h2>
+        <p>Trình duyệt sẽ yêu cầu quyền truy cập Camera và Microphone. Hãy nói thử để xem thanh màu xanh bên dưới có nhảy không. Nhìn hình ảnh webcam xem có bị sọc hay nhiễu màu không.</p>
+        <div class="btn-group">
+            <button onclick="startMedia()">Bật Webcam & Mic</button>
+        </div>
+        <div id="error-msg" class="error"></div>
+        <div class="media-container">
+            <video id="vid" autoplay muted playsinline></video>
+            <div id="meter"><div id="bar"></div></div>
+        </div>
+    </div>
+</div>
+
+<script>
+function tone(panValue){
+ const ctx=new (window.AudioContext||window.webkitAudioContext)();
+ const osc=ctx.createOscillator();
+ const gain=ctx.createGain();
+ const pan=ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+ osc.type="sine"; osc.frequency.value=880; gain.gain.value=0.15;
+ if(pan){ pan.pan.value=panValue; osc.connect(gain).connect(pan).connect(ctx.destination); }
+ else { osc.connect(gain).connect(ctx.destination); }
+ osc.start(); setTimeout(()=>{osc.stop();ctx.close();},900);
+}
+async function startMedia(){
+ const errDiv = document.getElementById("error-msg");
+ errDiv.style.display = "none";
+ try {
+  const stream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
+  document.getElementById("vid").srcObject=stream;
+  const ctx=new AudioContext();
+  const src=ctx.createMediaStreamSource(stream);
+  const analyser=ctx.createAnalyser();
+  analyser.fftSize=512; src.connect(analyser);
+  const data=new Uint8Array(analyser.frequencyBinCount);
+  function loop(){
+    analyser.getByteFrequencyData(data);
+    let sum=0; for(const v of data) sum+=v;
+    const avg=sum/data.length;
+    document.getElementById("bar").style.width=Math.min(100,avg*2)+"%";
+    requestAnimationFrame(loop);
+  }
+  loop();
+ } catch (err) {
+  errDiv.textContent = "Lỗi: " + err.message + " (Bạn đã từ chối quyền hoặc máy không có webcam/mic)";
+  errDiv.style.display = "block";
+ }
+}
+</script>
+</body>
+</html>

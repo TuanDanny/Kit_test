@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screen Color Test</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+html, body { margin: 0; height: 100%; font-family: 'Inter', sans-serif; overflow: hidden; background: black; transition: background 0.2s; }
+#screen { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 1.5rem; color: white; cursor: pointer; user-select: none; flex-direction: column; position: relative; }
+#box { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); padding: 32px 48px; border-radius: 20px; max-width: 800px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); line-height: 1.6; z-index: 10; opacity: 1; transition: opacity 0.3s; }
+.fade-out { opacity: 0 !important; pointer-events: none; }
+.title { font-size: 2.5rem; font-weight: 600; margin-bottom: 16px; color: #fff; }
+.controls { font-size: 1.1rem; color: #cbd5e0; margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.2); }
+.key-badge { background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 6px; font-family: monospace; font-size: 0.9em; margin: 0 4px; }
+#indicator { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 5; }
+.dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.3); transition: all 0.2s; }
+.dot.active { background: white; transform: scale(1.3); box-shadow: 0 0 10px rgba(255,255,255,0.8); }
+.hint { position: absolute; top: 20px; right: 20px; color: rgba(255,255,255,0.5); font-size: 14px; background: rgba(0,0,0,0.3); padding: 8px 16px; border-radius: 20px; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="screen">
+    <div class="hint">Nhấn phím H để ẩn/hiện hướng dẫn</div>
+    <div id="box">
+        <div class="title" id="color-title"></div>
+        <div id="color-desc"></div>
+        <div class="controls">
+            Bấm <span class="key-badge">F11</span> để Full màn hình.<br>
+            Click chuột hoặc <span class="key-badge">Space</span>/<span class="key-badge">Enter</span>/<span class="key-badge">→</span> để đổi màu.<br>
+            <span class="key-badge">←</span> để quay lại màu trước.<br>
+            Nhấn <span class="key-badge">H</span> để ẩn bảng này đi soi cho rõ.
+        </div>
+    </div>
+    <div id="indicator"></div>
+</div>
+<script>
+const colors=[
+["black", "Màu Đen", "Tìm hở sáng, điểm chết sáng (chấm trắng/xanh/đỏ), clouding (đốm sáng) ở 4 góc và viền màn hình."],
+["white", "Màu Trắng", "Tìm điểm chết đen (chấm đen), hiện tượng ố vàng, ám xanh/hồng hoặc bụi lọt dưới phản quang."],
+["red", "Màu Đỏ", "Kiểm tra lỗi sub-pixel (điểm ảnh phụ) màu đỏ."],
+["green", "Màu Xanh Lá", "Kiểm tra lỗi sub-pixel màu xanh lá."],
+["blue", "Màu Xanh Dương", "Kiểm tra lỗi sub-pixel màu xanh dương."],
+["gray", "Màu Xám", "Đặc biệt hữu hiệu để tìm bóng mờ (image retention), hiện tượng lưu ảnh hoặc sọc mờ."],
+["#ffff00", "Màu Vàng", "Kiểm tra độ đều màu trên toàn bộ panel."],
+["#00ffff", "Màu Cyan", "Kiểm tra dải màu trung gian."],
+["#ff00ff", "Màu Magenta", "Kiểm tra dải màu trung gian."],
+["linear-gradient(90deg, black, white)", "Gradient Ngang", "Quan sát sự chuyển màu từ đen sang trắng xem có bị phân lớp (banding) hay gãy khúc không."],
+["linear-gradient(0deg, black, white)", "Gradient Dọc", "Giống Gradient Ngang nhưng theo chiều dọc."]
+];
+let i=0; let showBox = true;
+const body=document.body, box=document.getElementById("box"), title=document.getElementById("color-title"), desc=document.getElementById("color-desc");
+const indicator=document.getElementById("indicator");
+
+colors.forEach((_, idx) => {
+    const d = document.createElement("div"); d.className = "dot";
+    indicator.appendChild(d);
+});
+
+function draw(){
+    body.style.background=colors[i][0];
+    title.textContent=colors[i][1];
+    desc.textContent=colors[i][2];
+    
+    // Đổi màu text nếu nền trắng để dễ đọc
+    if(colors[i][0] === "white" || colors[i][0] === "#ffff00" || colors[i][0] === "#00ffff") {
+        box.style.background = "rgba(0,0,0,0.8)";
+    } else {
+        box.style.background = "rgba(0,0,0,0.6)";
+    }
+
+    const dots = indicator.children;
+    for(let j=0; j<dots.length; j++){
+        dots[j].className = j === i ? "dot active" : "dot";
+    }
+}
+document.addEventListener("keydown",e=>{
+    if(e.key===" "||e.key==="Enter"||e.key==="ArrowRight"){e.preventDefault(); i=(i+1)%colors.length;draw();} 
+    if(e.key==="ArrowLeft"){e.preventDefault(); i=(i-1+colors.length)%colors.length;draw();}
+    if(e.key.toLowerCase()==="h"){ showBox = !showBox; if(showBox) box.classList.remove("fade-out"); else box.classList.add("fade-out"); }
+});
+document.getElementById("screen").onclick=(e)=>{
+    if(e.target.closest('#box') && showBox) return; // Don't trigger if clicking inside the box
+    i=(i+1)%colors.length;draw();
+};
+draw();
+</script>
+</body>
+</html>

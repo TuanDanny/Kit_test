@@ -1,0 +1,58 @@
+CHECKLIST TEST LAPTOP TAI CUA HANG - ACER SHADOW RTX 4060
+
+1) Xac nhan cau hinh tren hoa don/trang shop
+[ ] CPU: Intel Core i7-14650HX
+[ ] GPU: NVIDIA RTX 4060 Laptop GPU 8GB
+[ ] RAM: 16GB DDR5, hoi ro 1x16 hay 2x8, con khe nang cap khong
+[ ] SSD: 1TB NVMe
+[ ] Man hinh: 16 inch 2.5K 2560x1600, 165Hz, hoi ro 100% sRGB hay khong
+[ ] Tinh trang: New 100% hay outlet/like new
+[ ] Bao hanh: hang hay shop, bao lau, bao hanh pin/sac/man hinh ra sao
+
+2) Chay script
+[ ] Run_Laptop_Test_Admin.bat bang Administrator
+[ ] Report khong co loi Device Manager
+[ ] SSD HealthStatus OK
+[ ] RAM/SSD/GPU/CPU dung nhu cam ket
+[ ] Battery report hop ly neu may khong phai new 100%
+
+3) Test man hinh
+[ ] F11 full screen trong Screen_Color_Test.html
+[ ] Khong diem chet
+[ ] Khong soc man
+[ ] Ho sang khong qua nang
+[ ] Refresh rate da chinh dung 165Hz trong Windows Settings
+
+4) Test ban phim/touchpad
+[ ] Keyboard_Test.html nhan du phim
+[ ] Touchpad click trai/phai OK
+[ ] Keo 2 ngon OK
+[ ] Den ban phim OK
+[ ] Phim Fn tang/giam sang, volume, airplane mode OK
+
+5) Test cong va ket noi
+[ ] Tat ca USB-A nhan USB
+[ ] USB-C/Thunderbolt/DP/PD neu may co thi test neu shop cho phep
+[ ] HDMI xuat man hinh neu can
+[ ] Wi-Fi bat duoc, vao web duoc
+[ ] Bluetooth ket noi duoc
+[ ] Webcam/mic/loa OK
+
+6) Test sac, pin, nhiet
+[ ] Sac zin, dung cong suat
+[ ] Cam sac khong long, khong chap chon
+[ ] May khong qua nong bat thuong khi idle
+[ ] Quat khong keu re/re
+[ ] Ban le chac, nap khong cong venh
+
+7) Doi chieu serial
+[ ] Serial tren may trung BIOS/script
+[ ] Serial tren hop/hoa don/trang bao hanh trung nhau
+[ ] Chup lai serial + hoa don + tem bao hanh
+
+Cau hoi nen hoi shop:
+- RTX 4060 TGP bao nhieu W?
+- Man hinh dung 2.5K 165Hz, mau 100% sRGB khong?
+- RAM dang 1x16 hay 2x8?
+- SSD con bao hanh khong, co phai SSD zin theo may khong?
+- Neu phat hien dead pixel/loi trong 7 ngay co doi may khong?

@@ -1,0 +1,9 @@
+# Generated test reports
+Laptop_Full_Check_Report_*.txt
+dxdiag_*.txt
+winsat_*.txt
+battery_report_*.html
+
+# Ignore temp files if any
+*.tmp
+*.bak
