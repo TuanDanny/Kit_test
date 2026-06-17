@@ -7,7 +7,7 @@
 </p>
 
 ## 🌟 Giới thiệu (Overview)
-Bộ công cụ **Laptop Full Test Kit V2** là "vũ khí" đắc lực dành cho những ai đi mua laptop cũ/mới tại cửa hàng. Chỉ cần copy vào USB, cắm vào máy và chạy **1 click**, tool sẽ tự động rà quét và xuất báo cáo toàn bộ sức khỏe phần cứng của chiếc máy.
+Bộ công cụ **Laptop Full Test Kit** là "vũ khí" đắc lực dành cho những ai đi mua laptop cũ/mới tại cửa hàng. Chỉ cần copy vào USB, cắm vào máy và chạy **1 click**, tool sẽ tự động rà quét và xuất báo cáo toàn bộ sức khỏe phần cứng của chiếc máy.
 
 Đặc biệt hữu ích để tránh bị lừa đảo (luộc đồ), mua nhầm máy lỗi hoặc cấu hình không đúng quảng cáo!
 
