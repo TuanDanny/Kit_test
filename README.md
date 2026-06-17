@@ -1,4 +1,4 @@
-# <p align="center"> <a href="https://github.com/TuanDanny/laptop-full-test-kit"> <img src="https://readme-typing-svg.herokuapp.com/?font=Fira+Code&weight=600&size=30&pause=1000&color=2196F3&center=true&vCenter=true&width=600&lines=Laptop+Full+Test+Kit+V2;Automated+Hardware+Diagnostic+Tool;Plug+%26+Play+via+USB!"/> </a> </p>
+# <p align="center"> <a href="https://github.com/TuanDanny/laptop-full-test-kit"> <img src="https://readme-typing-svg.herokuapp.com/?font=Fira+Code&weight=600&size=30&pause=1000&color=2196F3&center=true&vCenter=true&width=600&lines=Laptop+Full+Test+Kit;Automated+Hardware+Diagnostic+Tool;Plug+%26+Play+via+USB!"/> </a> </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-blue?style=for-the-badge&logo=windows" />
